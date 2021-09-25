@@ -1,21 +1,20 @@
+import { getData } from "../../components/carapi/index";
+
 type Cars = {
     paths: [{ params: { slug: string } }];
     fallback: boolean;
 };
 
-export default function Car(obj: { slug: string }) {
-    return (
-        <div>
-            <h1>car {obj.slug}</h1>
-        </div>
-    );
+export default function Car(props) {
+    return <div>cars</div>;
 }
 
-export function getStaticProps(context: { params: any }) {
+export async function getStaticProps(context: { params: any }) {
     const { slug } = context.params;
+
     return {
         props: {
-            slug,
+            data,
         },
     };
 }
@@ -26,6 +25,11 @@ export function getStaticPaths(): Cars {
             {
                 params: {
                     slug: "1",
+                },
+            },
+            {
+                params: {
+                    slug: "2",
                 },
             },
         ],
