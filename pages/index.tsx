@@ -1,8 +1,9 @@
 import type { NextPage } from "next";
-import { getData } from "../components/carapi/index";
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import listings from "../components/car-listings/index";
+import Listings from "../components/car-listings/index";
+import { proplistings } from "../interfaces";
 
 export async function getServerSideProps() {
     const data = await fetch("https://auto.dev/api/listings?state=TX", {
@@ -17,8 +18,8 @@ export async function getServerSideProps() {
     };
 }
 
-export default function Home(props: { data }) {
-    console.log(props.data);
+export default function Home(props: proplistings) {
+    // console.log(props.data.records);
     return (
         <div>
             <Head>
@@ -29,27 +30,15 @@ export default function Home(props: { data }) {
 
             <main>
                 <div>
-                    <h1>Buy Cars</h1>
-                    {props.data.records ? (
-                        props.data.records.map((car) => (
-                            <div key={car.id}>
-                                <h3>
-                                    {car.make}
-                                    {car.model}
-                                    {car.year}
-                                </h3>
-                                <Image src={car.thumbnailUrl} alt={car.make} width={100} height={100} />
-                                <a href={car.clickoffUrl}>External Link</a>
-                                <p>{car.price}</p>
-                                <p>{car.mileage}</p>
-                                <p>
-                                    {car.state}, {car.city}
-                                </p>
-                            </div>
-                        ))
-                    ) : (
-                        <div>no cars available</div>
-                    )}
+                    <h1>CarListings</h1>
+                    <Listings
+                        data={props.data}
+                        props={{
+                            data: {
+                                records: [],
+                            },
+                        }}
+                    />
                 </div>
             </main>
 
